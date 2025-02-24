@@ -1,7 +1,8 @@
 let answered = false;
 let currentStage = 0;
-let currentCorrectAnswer;
 let score = [];
+let currentQuartet = [];
+let currentCorrectAnswer;
 let getQuartetFunction;
 const questionNumber = "À quel département correspond le numéro ";
 const questionName = "Quel est le numéro du département ";
@@ -144,6 +145,7 @@ function answer(index) {
   if (!answered) {
     answered = true;
     disableSelection();
+    fillAnswersFull();
 
     getCorrectAnswer().classList.add("true");
 
@@ -224,7 +226,7 @@ function clearAnswerClasses() {
 }
 
 function setQuestionAnswers() {
-  let answers = getQuartetFunction();
+  currentQuartet = getQuartetFunction();
   currentCorrectAnswer = Math.floor(Math.random() * 4) + 1;
 
   if (currentStage % 2 === 0) {
@@ -232,19 +234,19 @@ function setQuestionAnswers() {
     setQuestion(
       questionNumber +
         "<u>" +
-        answers[currentCorrectAnswer - 1]["num"] +
+        currentQuartet[currentCorrectAnswer - 1]["num"] +
         "</u> ?"
     );
-    setReponsesNames(answers);
+    setReponsesNames(currentQuartet);
   } else {
     // question dep -> numéro
     setQuestion(
       questionName +
         "<u>" +
-        answers[currentCorrectAnswer - 1]["name"] +
+        currentQuartet[currentCorrectAnswer - 1]["name"] +
         "</u> ?"
     );
-    setReponsesNumbers(answers);
+    setReponsesNumbers(currentQuartet);
   }
 }
 
@@ -277,4 +279,11 @@ function resetScore() {
   for (let i = 0; i <= 9; i++) {
     document.getElementById("point" + i).className = "";
   }
+}
+
+function fillAnswersFull() {
+  currentQuartet.forEach((e, index) => {
+    document.getElementById("rep" + (index + 1)).innerText =
+      e["name"] + " (" + e["num"] + ")";
+  });
 }

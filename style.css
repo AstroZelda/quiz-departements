@@ -73,6 +73,7 @@ main {
 .question {
   margin: 40px 0;
   width: 100%;
+  min-height: 60pt;
   font-size: 30pt;
   color: var(--dark-color);
   text-align: center;
