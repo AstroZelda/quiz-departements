@@ -142,3 +142,31 @@ main {
     cursor: pointer;
   }
 }
+
+#home, #result {
+  h1, p {
+    margin: 0;
+    padding: 0;
+    padding-bottom: 20px;
+  }
+
+  .btn-game-type {
+    display: inline;
+    padding: 5px;
+    width: fit-content;
+    border: 1px solid var(--dark-color);
+    border-radius: 10px;
+
+    &:hover {
+      cursor: pointer;
+
+      &.easy {
+        background-color: rgb(91, 184, 91);
+      }
+
+      &.hard {
+        background-color: rgb(240, 65, 65);
+      }
+    }
+  }
+}

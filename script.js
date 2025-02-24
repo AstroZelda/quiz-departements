@@ -2,6 +2,7 @@ let answered = false;
 let currentStage = 0;
 let currentCorrectAnswer;
 let score = [];
+let getQuartetFunction;
 const questionNumber = "À quel département correspond le numéro ";
 const questionName = "Quel est le numéro du département ";
 const departements = [
@@ -111,13 +112,32 @@ const departements = [
   { num: "2B", name: "Haute-Corse" },
 ];
 
-init();
-
 function init() {
   answered = false;
   currentStage = 0;
   score = [];
+  show("game");
   nextQuestion();
+}
+
+function easyMode(source) {
+  hide(source);
+  getQuartetFunction = getQuartetFromArray;
+  init();
+}
+
+function hardMode(source) {
+  hide(source);
+  getQuartetFunction = getNeighboringQuartetFromArray;
+  init();
+}
+
+function hide(id) {
+  document.getElementById(id).classList.add("hidden");
+}
+
+function show(id) {
+  document.getElementById(id).classList.remove("hidden");
 }
 
 function answer(index) {
@@ -182,7 +202,9 @@ function next() {
 
 function nextQuestion() {
   if (currentStage === 10) {
-    showResult();
+    hide("game");
+    show("result");
+    resetScore();
   } else {
     disableNextButton();
     clearAnswerClasses();
@@ -190,11 +212,6 @@ function nextQuestion() {
     setQuestionAnswers();
     answered = false;
   }
-}
-
-function showResult() {
-  document.getElementById("game").classList.add("hidden");
-  document.getElementById("result").classList.remove("hidden");
 }
 
 function clearAnswerClasses() {
@@ -207,7 +224,7 @@ function clearAnswerClasses() {
 }
 
 function setQuestionAnswers() {
-  let answers = getQuartetFromArray();
+  let answers = getQuartetFunction();
   currentCorrectAnswer = Math.floor(Math.random() * 4) + 1;
 
   if (currentStage % 2 === 0) {
@@ -249,4 +266,15 @@ function setReponsesNumbers(reponses) {
 
 function getQuartetFromArray() {
   return [...departements].sort(() => Math.random() - 0.5).slice(0, 4);
+}
+
+function getNeighboringQuartetFromArray() {
+  let startIndex = Math.floor(Math.random() * (departements.length - 3));
+  return departements.slice(startIndex, startIndex + 4);
+}
+
+function resetScore() {
+  for (let i = 0; i <= 9; i++) {
+    document.getElementById("point" + i).className = "";
+  }
 }
